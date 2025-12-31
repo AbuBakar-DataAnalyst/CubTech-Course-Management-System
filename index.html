@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CubTech</title>
+
+<!-- FAVICON -->
+<link rel="icon" type="image/png" href="favicon.png">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:"Segoe UI",Arial,sans-serif;
+    background:linear-gradient(120deg,#e0f7fa,#e1f5fe);
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    min-height:100vh;
+}
+
+/* ===== PAGE BACKGROUNDS (ADDED) ===== */
+body.home-bg{ background-image:url("5.png"); }
+body.courses-bg{ background-image:url("5.png");}
+body.about-bg{ background-image:url("5.png"); }
+body.login-bg{ background-image:url("5.png"); }
+
+
+/* ================= NAVBAR ================= */
+.navbar{
+    position:sticky;
+    top:0;
+    z-index:100;
+    padding:14px 50px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:linear-gradient(135deg,#4ade80,#16a34a,#22c55e,#10b981);
+    background-size:300% 300%;
+    animation:navGradient 6s ease infinite;
+    box-shadow:0 8px 25px rgba(0,0,0,0.15);
+}
+
+.logo{
+    color:white;
+    font-size:22px;
+    font-weight:bold;
+}
+
+.nav-left{
+    display:flex;
+    gap:30px;
+}
+
+.nav-left a{
+    color:#fff;
+    text-decoration:none;
+    font-size:16px;
+    position:relative;
+}
+
+.nav-left a::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-6px;
+    width:0;
+    height:3px;
+    background:#fde68a;
+    transition:0.3s;
+}
+
+.nav-left a:hover{
+    color:#fef3c7;
+}
+
+.nav-left a:hover::after{
+    width:100%;
+}
+
+.nav-right{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:linear-gradient(135deg,#4ade80,#16a34a);
+    padding:8px 18px;
+    border-radius:30px;
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.nav-right:hover{
+    transform:scale(1.08);
+    background:linear-gradient(135deg,#22c55e,#15803d);
+}
+
+/* ================= SECTIONS ================= */
+.section{
+    padding:60px;
+    display:none;
+    background:white;
+    border-radius:12px;
+    margin:20px auto;
+    max-width:950px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.section.active{
+    display:block;
+}
+
+/* HOME */
+.home-box{
+    padding:40px;
+    border-radius:14px;
+    box-shadow:0 15px 40px rgba(0,0,0,0.1);
+    animation:fadeUp 0.8s ease;
+}
+
+.home-box h1{
+    text-align:center;
+    margin-bottom:15px;
+}
+
+.home-box p{
+    text-align:center;
+    line-height:1.8;
+    color:#f3f6f9;
+}
+
+/* LOGIN BOX */
+.login-box{
+    width:35%;
+    margin:90px auto;
+    background:white;
+    padding:30px;
+    border-radius:14px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.15);
+    display:none;
+    animation:fadeUp 0.7s ease;
+}
+
+.login-title{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    font-size:22px;
+    margin-bottom:10px;
+}
+
+.lock{
+    animation:lockPulse 1.5s infinite;
+}
+
+label{
+    display:block;
+    margin-top:12px;
+}
+
+input,select,button{
+    width:100%;
+    padding:10px;
+    margin-top:6px;
+    border-radius:6px;
+    border:1px solid #94a3b8;
+}
+
+button{
+    background:linear-gradient(135deg,#4ade80,#16a34a,#22c55e);
+    color:white;
+    border:none;
+    margin-top:18px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:translateY(-3px) scale(1.02);
+    box-shadow:0 12px 25px rgba(22,163,74,0.5);
+}
+
+.delete-btn{
+    background:linear-gradient(135deg,#f87171,#ef4444,#dc2626);
+}
+
+#loginMessage,#message{
+    text-align:center;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+/* TABLE */
+table{
+    width:90%;
+    margin:25px auto;
+    border-collapse:collapse;
+    background:white;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 12px 30px rgba(0,0,0,0.1);
+}
+
+th{
+    background:#fef3c7;
+}
+
+th,td{
+    padding:12px;
+    text-align:center;
+    border-bottom:1px solid #e5e7eb;
+}
+
+/* MAIN SYSTEM */
+.container{
+    display:none;
+    padding:40px;
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp{
+    from{opacity:0;transform:translateY(30px);}
+    to{opacity:1;transform:translateY(0);}
+}
+
+@keyframes navGradient{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+@keyframes lockPulse{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.15);}
+    100%{transform:scale(1);}
+}
+
+/* Footer */
+.fixed-footer{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    background-color:rgba(123,4,4,0.778);
+    color:white;
+    text-align:center;
+    padding:20px 0 15px 0;
+    z-index:999;
+}
+.fixed-footer a{
+    color:yellow;
+    text-decoration:none;
+    font-size:medium;
+    font-weight:bold;
+}
+
+/* ==================== NEW THEME UPDATE (ADDED ONLY) ==================== */
+
+:root {
+    --theme-gradient: linear-gradient(135deg, #8B4513, #654321, #0b8200); /* Brown + Dark Indigo */
+    --theme-anim: linear-gradient(270deg, #A0522D, #5C4033, #006602, #8B4513); /* Brown shades + Dark Purple */
+}
+
+
+
+@keyframes themeMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+/* Navbar Update */
+.navbar{
+    background:var(--theme-anim);
+    background-size:400% 400%;
+    animation:themeMove 8s ease infinite;
+}
+
+/* Buttons Update */
+button,
+.nav-right,
+.delete-btn{
+    background:var(--theme-anim);
+    background-size:300% 300%;
+    animation:themeMove 6s ease infinite;
+}
+
+/* Boxes Update */
+.section,
+.home-box,
+.login-box,
+.container,
+form {
+    background: linear-gradient(135deg, rgba(201, 104, 35, 0.85), rgba(151, 117, 13, 0.736), rgba(116, 171, 5, 0.752));
+    border: 1px solid rgba(139, 69, 19, 0.2);
+    backdrop-filter: blur(8px); /* subtle blur effect */
+    color: #ffffff; /* text color white */
+    background-size: 300% 300%;
+    animation: boxGradient 10s ease infinite;
+}
+
+/* Gradient animation */
+@keyframes boxGradient {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+
+
+/* Table Header Update */
+th{
+    background:var(--theme-gradient);
+    color:white;
+}
+
+/* Footer Update */
+.fixed-footer{
+    background:var(--theme-anim);
+    background-size:400% 400%;
+    animation:themeMove 10s ease infinite;
+}
+
+/* Input Focus */
+input:focus,
+select:focus{
+    outline:none;
+    border-color:#2563eb;
+    box-shadow:0 0 0 3px rgba(37,99,235,0.25);
+}
+</style>
+</head>
+
+<body class="home-bg">
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="logo">🎓 CubTech</div>
+    <div class="nav-left">
+        <a href="#" onclick="showSection('home')">Home</a>
+        <a href="#" onclick="showSection('courses')">Courses</a>
+        <a href="#" onclick="showSection('about')">About</a>
+    </div>
+    <div class="nav-right" onclick="openLogin()">
+        <span class="lock">🔐</span> Login
+    </div>
+</div>
+
+<!-- HOME -->
+<div id="home" class="section active"> 
+    <div class="home-box">
+        <h1>Welcome to CubTech 🎓</h1>
+        <p>
+            At CubTech, we offer both physical and online courses designed to boost your skills and career. 🌟<br><br>
+            ✔ Secure Login – Your data is safe with us 🔒<br>
+            ✔ Easy Course Registration – Sign up in just a few clicks 🖱️<br>
+            ✔ Lifetime Access – Get unlimited access to all recorded course videos for the course you buy 🎥<br>
+            ✔ Updated Playlists – We continuously add new content to keep you ahead 🚀<br>
+            ✔ Expert Support – Our team is always here to guide you 👩‍🏫
+        </p>
+    </div>
+</div>
+
+
+<!-- COURSES -->
+<div id="courses" class="section">
+    <h2 style="text-align:center">Available Courses</h2>
+    <table style="color: black;">
+        <tr><th>Course</th><th>Duration</th><th>Fee</th></tr>
+        <tr><td>Web Development</td><td>3 Months</td><td>20,000 PKR</td></tr>
+        <tr><td>Data Analysis</td><td>2 Months</td><td>18,000 PKR</td></tr>
+        <tr><td>Graphic Design</td><td>2 Months</td><td>15,000 PKR</td></tr>
+        <tr><td>Digital Marketing</td><td>2 Months</td><td>16,000 PKR</td></tr>
+        <tr><td>Python Programming</td><td>3 Months</td><td>22,000 PKR</td></tr>
+        <tr><td>Mobile App Dev</td><td>3 Months</td><td>25,000 PKR</td></tr>
+        <tr><td>Cyber Security</td><td>4 Months</td><td>30,000 PKR</td></tr>
+    </table>
+</div>
+
+<!-- ABOUT -->
+<div id="about" class="section">
+    <div class="home-box">
+        <h2>About CubTech 🏫</h2>
+        <p>
+            CubTech is a modern institute offering high-quality courses both online and physically. 💻🏢<br><br>
+            Our goal is to provide practical knowledge that helps you excel in your career. We focus on:<br>
+            ✔ Frontend Skills: HTML, CSS, JavaScript 🌐<br>
+            ✔ Backend Concepts: C# (ASP.NET) ⚙️<br>
+            ✔ Updated Course Content – Always up-to-date with latest trends 📈<br>
+            ✔ Lifetime Learning – Access your course videos anytime, anywhere 🕒<br>
+            ✔ Professional Guidance – Learn from experienced instructors 👨‍🏫
+        </p>
+    </div>
+</div>
+
+
+<!-- LOGIN -->
+<div class="login-box" id="loginBox">
+    <div class="login-title">
+        <span class="lock">🔐</span> Login
+    </div>
+
+    <label style="color: black;">Enter Email :</label>
+    <input type="text" id="loginEmail">
+
+    <label style="color: black;">Phone No (11 digits) :</label>
+    <input type="text" id="loginPhone">
+
+    <button onclick="login()" style="color: black;">Login</button>
+    <p id="loginMessage"></p>
+</div>
+
+<!-- MAIN SYSTEM -->
+<div class="container" id="mainSystem">
+    <h2 style="text-align:center">Course Registration</h2>
+
+    <form id="registrationForm" style="width:40%;margin:auto;background:rgba(10, 4, 4, 0.867);padding:25px;border-radius:12px">
+        <label>Student Name</label>
+        <input type="text" id="name">
+
+        <label>Email</label>
+        <input type="text" id="email">
+
+        <label>Contact Number</label>
+        <input type="text" id="contact">
+
+        <label>Select Course</label>
+        <select id="course">
+            <option value="">-- Select Course --</option>
+            <option>Web Development</option>
+            <option>Data Analysis</option>
+            <option>Graphic Design</option>
+            <option>Digital Marketing</option>
+            <option>Python Programming</option>
+            <option>Mobile App Dev</option>
+            <option>Cyber Security</option>
+        </select>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <p id="message"></p>
+
+    <div class="students">
+        <h2 style="text-align:center">Registered Students</h2>
+        <table id="studentsTable" style="background-color: black;">
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Course</th>
+                <th>Action</th>
+            </tr>
+        </table> 
+    </div>
+</div>
+
+<script>
+let students = [];
+
+function showSection(id){
+    document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+    loginBox.style.display="none";
+    mainSystem.style.display="none";
+
+    if(id==="home") document.body.className="home-bg";
+    if(id==="courses") document.body.className="courses-bg";
+    if(id==="about") document.body.className="about-bg";
+}
+
+function openLogin(){
+    document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+    loginBox.style.display="block";
+    mainSystem.style.display="none";
+    document.body.className="login-bg";
+}
+
+function login(){
+    if(loginEmail.value==="" || !/^\d{11}$/.test(loginPhone.value)){
+        loginMessage.style.color="red";
+        loginMessage.innerText="Valid email & 11 digit phone required";
+        return;
+    }
+    loginBox.style.display="none";
+    mainSystem.style.display="block";
+    document.body.className="system-bg";
+    loadStudents();
+}
+
+function loadStudents(){
+    const table = document.getElementById("studentsTable");
+    table.innerHTML=`
+        <tr>
+            <th>Name</th><th>Email</th><th>Phone</th><th>Course</th><th>Action</th>
+        </tr>`;
+    students.forEach((s,i)=>{
+        let r = table.insertRow();
+        r.insertCell(0).innerText = s.name;
+        r.insertCell(1).innerText = s.email;
+        r.insertCell(2).innerText = s.phone;
+        r.insertCell(3).innerText = s.course;
+        let a=r.insertCell(4);
+        let b=document.createElement("button");
+        b.className="delete-btn";
+        b.innerText="Delete";
+        b.onclick=()=>{ students.splice(i,1); loadStudents(); };
+        a.appendChild(b);
+    });
+}
+
+document.getElementById("registrationForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    const n = document.getElementById("name").value.trim();
+    const eMail = document.getElementById("email").value.trim();
+    const c = document.getElementById("contact").value.trim();
+    const course = document.getElementById("course").value;
+
+    if(!n || !eMail || !c || !course){
+        message.style.color="red";
+        message.innerText="All fields are required";
+        return;
+    }
+
+    students.push({name:n,email:eMail,phone:c,course:course});
+    loadStudents();
+    message.style.color="green";
+    message.innerText="Registration successful";
+    document.getElementById("registrationForm").reset();
+});
+</script>
+
+<div class="fixed-footer">
+    <p>
+        Copyright ©2025 All rights reserved | All Rights Reserved Develop By 
+        ♥ <a href="https://wa.me/923251600630">Abu Bakar Siddique</a>
+    </p>
+</div>
+
+</body>
+</html>
